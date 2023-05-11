@@ -1,8 +1,20 @@
 import { fetchLogin } from "../api.js";
 
 export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
-    const appHtml = `<h3 class="form-title">Форма регистрации</h3>
+
+    let logeMode = true;
+
+    const renderLoge = () => {
+
+        const appHtml = `<h3 class="form-title">Форма ${logeMode ? "входа" : "регистрации"}</h3>
                 <div class="form-row">
+                ${logeMode ? "" : ` Имя 
+                <input
+                type="text"
+                id="name-input"
+                class="input"
+                />
+                <br/><br/>`}
                     Логин
                 <input
                 type="text"
@@ -19,6 +31,7 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
                 </div>
                 <br />
                 <button class="button" id="login-button">Войти</button>
+                <button class="button" id="toggle-button">Перейти ${logeMode ? "к регистрации" : "ко входу"}</button>
                     </div>`
         
         appEl.innerHTML = appHtml;
@@ -52,4 +65,14 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
             })
 
         });
+
+        document.getElementById("toggle-button").addEventListener("click", () => {
+            logeMode = !logeMode;
+            renderLoge();
+        })
+
+    }
+
+    renderLoge();
+
 }
