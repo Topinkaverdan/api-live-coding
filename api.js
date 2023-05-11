@@ -57,6 +57,9 @@ export const fetchLogin = ({ login, password }) => {
       }),
   })
       .then((response) => {
+      if (response.status === 400) {
+        throw new Error("Неверный логин или пароль")
+      }
       return response.json();
       })
 

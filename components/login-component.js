@@ -12,8 +12,8 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
                 <br/><br/>
                 Пароль 
                 <input
-                type="text"
-                id="login-input"
+                type="password"
+                id="password-input"
                 class="input"
                 />
                 </div>
@@ -22,14 +22,33 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
                     </div>`
         
         appEl.innerHTML = appHtml;
+
         document.getElementById("login-button").addEventListener('click', () => {
 
+            const loginEl = document.getElementById("login-input");
+            const passwordEl = document.getElementById("password-input");
+    
+            const login = loginEl.value;
+            const password = passwordEl.value;
+            
+            if (!login) {
+                alert('Введите логин');
+                return;
+            }
+
+            if (!password) {
+                alert('Введите пароль');
+                return;
+            }
+
             fetchLogin({
-                login: "glebka",
-                password: "123456",
+                login: login,
+                password: password,
             }).then((user) => {
                 setToken(`Bearer ${user.user.token}`);
                 fetchTodosAndRender();
+            }).catch((error) => {
+                alert(error.message);
             })
 
         });
