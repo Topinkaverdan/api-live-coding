@@ -64,3 +64,22 @@ export const fetchLogin = ({ login, password }) => {
       })
 
 }
+
+export const fetchRegister = ({ login, password, name }) => {
+
+  return fetch("https://webdev-hw-api.vercel.app/api/user", {
+      method: "POST",
+      body: JSON.stringify({
+      login,
+      password,
+      name,
+      }),
+  })
+      .then((response) => {
+      if (response.status === 400) {
+        throw new Error("Пользователь уже существует")
+      }
+      return response.json();
+      })
+
+}

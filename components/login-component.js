@@ -1,4 +1,4 @@
-import { fetchLogin } from "../api.js";
+import { fetchLogin, fetchRegister } from "../api.js";
 
 export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
 
@@ -43,7 +43,37 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
     
             const login = loginEl.value;
             const password = passwordEl.value;
+            const name = document.getElementById("name-input").value;
             
+
+            if (logeMode) {
+                fetchLogin({
+                    login: login,
+                    password: password,
+                }).then((user) => {
+                    setToken(`Bearer ${user.user.token}`);
+                    fetchTodosAndRender();
+                }).catch((error) => {
+                    alert(error.message);
+                })
+            } else {
+                fetchRegister({
+                    login: login,
+                    password: password,
+                    name: name,
+                }).then((user) => {
+                    setToken(`Bearer ${user.user.token}`);
+                    fetchTodosAndRender();
+                }).catch((error) => {
+                    alert(error.message);
+                })
+            }
+            if (!name) {
+
+                alert("Введите имя");
+                return;
+                
+            }
             if (!login) {
                 alert('Введите логин');
                 return;
@@ -54,15 +84,7 @@ export function renderLoginComponent({ appEl, setToken, fetchTodosAndRender}) {
                 return;
             }
 
-            fetchLogin({
-                login: login,
-                password: password,
-            }).then((user) => {
-                setToken(`Bearer ${user.user.token}`);
-                fetchTodosAndRender();
-            }).catch((error) => {
-                alert(error.message);
-            })
+           
 
         });
 
