@@ -46,3 +46,18 @@ export const fetchPost = ({ token, text }) => {
         })
 
 }
+
+export const fetchLogin = ({ login, password }) => {
+
+  return fetch("https://webdev-hw-api.vercel.app/api/user/login", {
+      method: "POST",
+      body: JSON.stringify({
+      login,
+      password,
+      }),
+  })
+      .then((response) => {
+      return response.json();
+      })
+
+}
